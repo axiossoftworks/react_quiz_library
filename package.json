@@ -49,5 +49,10 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^0.21.1",
+    "immer": "^8.0.0",
+    "react-countdown": "^2.3.1"
+  }
 }
