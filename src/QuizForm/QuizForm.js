@@ -138,6 +138,7 @@ class QuizForm extends React.Component {
     );
     if (data.status === 200) {
       toastr.success("Successfully saved")
+      this.props.onSaveSubmitSuccess()
       this.setState(this.initialState)
     }else{
       toastr.error(data.message)

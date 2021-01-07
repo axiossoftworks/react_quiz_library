@@ -1,7 +1,7 @@
 {
-  "name": "quiz_library-example",
+  "name": "@axiossoftworks/quiz_library-example",
   "homepage": ".",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
@@ -20,6 +20,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axios11/react_quiz_library.git"
   },
   "browserslist": [
     ">0.2%",

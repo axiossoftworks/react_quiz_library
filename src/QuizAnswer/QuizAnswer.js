@@ -12,7 +12,7 @@ export class QuizAnswer extends Component {
   };
 
   componentDidMount() {
-    if (this.props.quizData.length !== 0) {
+    if (this.props.quizData?.length !== 0) {
       const data = this.props.quizData.map((quiz) => ({
           title: quiz.quiz_name,
           isStrict: quiz.is_strictduration,
@@ -53,7 +53,7 @@ export class QuizAnswer extends Component {
     {this.state.startQuiz ? null :<button onClick={() => {
       this.setState({startQuiz: true})
     }}>Start Quiz</button>}
-    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration}/>}
+    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess}/>}
     
     </div>;
   }
