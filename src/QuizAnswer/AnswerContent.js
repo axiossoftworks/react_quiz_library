@@ -112,6 +112,7 @@ export default class AnswerContent extends Component {
       .map((answer) => ({
         option_id: answer.answeredOptionId,
         question_id: answer.id,
+        tester_id: this.props.testerId,
         is_correct:
           answer.options.find((item) => item.optionValue === answer.correctAns)
             .id == answer.answeredOptionId,
