@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import produce from "immer";
 import Countdown from "react-countdown";
-
+import axios from 'axios'
 export default class AnswerContent extends Component {
   state = { currentQuestion: "", countDown: 20000, beginTime: Date.now() };
 
@@ -120,6 +120,7 @@ export default class AnswerContent extends Component {
     debugger;
     const { data } = await axios.post(this.props.submitUrl, {
       answers,
+      token: this.props.token
     });
     if (data.status === 200) {
       setTimeout(() => {
