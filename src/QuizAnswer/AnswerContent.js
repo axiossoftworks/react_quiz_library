@@ -80,7 +80,7 @@ export default class AnswerContent extends Component {
     if (this.state.currentQuestion.answeredOptionId !== undefined) {
       this.showNextQuestion();
     } else {
-      toastr.error("Please Select your answer first!!");
+      this.props.toastr.error("Please Select your answer first!!");
     }
   };
 
@@ -124,12 +124,12 @@ export default class AnswerContent extends Component {
     });
     if (data.status === 200) {
       setTimeout(() => {
-        toastr.error("Answers Were submitted.")
+        this.props.toastr.error("Answers Were submitted.")
       },2000)
       await this.props.onSaveSubmitSuccess()
       window.location.reload();
     } else {
-      toastr.error(data.message);
+      this.props.toastr.error(data.message);
     }
   };
   render() {

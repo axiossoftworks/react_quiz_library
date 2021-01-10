@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AnswerContent from "./AnswerContent";
+import { ToastContainer } from "react-toastr";
 
 export class QuizAnswer extends Component {
   state = {
@@ -46,6 +47,10 @@ export class QuizAnswer extends Component {
   }
   render() {
     return <div>
+     <ToastContainer
+    ref={ref => this.toastr = ref}
+    className="toast-top-right"
+  />
     <h1>Title: {this.state.title}
     </h1>
    
@@ -53,7 +58,7 @@ export class QuizAnswer extends Component {
     {this.state.startQuiz ? null :<button onClick={() => {
       this.setState({startQuiz: true})
     }}>Start Quiz</button>}
-    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess} testerId={this.props.testerId} token={this.props.token} submitUrl={this.props.submitUrl}/>}
+    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess} testerId={this.props.testerId} token={this.props.token} submitUrl={this.props.submitUrl} toastr={this.toastr}/>}
     
     </div>;
   }
