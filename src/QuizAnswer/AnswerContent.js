@@ -126,7 +126,7 @@ export default class AnswerContent extends Component {
       setTimeout(() => {
         toastr.error("Answers Were submitted.")
       },2000)
-      this.props.onSaveSubmitSuccess()
+      await this.props.onSaveSubmitSuccess()
       window.location.reload();
     } else {
       toastr.error(data.message);
