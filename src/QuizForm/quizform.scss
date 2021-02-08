@@ -1,0 +1,144 @@
+$titleCOlor:#444343;
+$contentColor:#4a4a4a;
+$backgroundColor:#f1f1f1b5;
+$iconColor:#6f6f6f;
+$borderColor:#c7c7c7;
+$white:#fff;
+$primaryColor: #2092A5;
+$shadow: 0 2px 40px 0 #48474712;
+$delete:#f53335;
+$secondaryBtnColor:#d0d0d0;
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+.main_btn {
+  border: none;
+  border-radius: 25px;
+  background: $primaryColor;
+  color: $white;
+  padding: 7px 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.bg_delete {
+  background: $delete;
+}
+.delete{
+    color: $delete;
+}
+.secondary_btn{
+    background: $backgroundColor;
+    color: $titleCOlor;
+}
+.btn_icon{
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: 50%;
+    background: $backgroundColor;
+}
+.btn_block{
+    display: flex;
+    align-items: center;
+    button{
+        margin-left: 10px;
+    }
+}
+.content {
+  font-size: 18px;
+  color: $contentColor;
+}
+
+.question_section {
+  background: $backgroundColor;
+  padding: 60px;
+  box-shadow: $shadow;
+
+  .question_icon {
+    color: $iconColor;
+    margin-right: 10px;
+  }
+
+  .qustion_title_block {
+    display: flex;
+    align-items: center;
+
+    .question_title {
+      font-size: 22px;
+      font-weight: 700;
+      color: $titleCOlor;
+    }
+  }
+
+  .question_title_input {
+    margin: 10px 0;
+  }
+
+  .input_field {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid $borderColor;
+    padding: 8px 15px;
+    color: $contentColor;
+
+    &:focus {
+      outline: unset;
+    }
+  }
+
+  .question_block {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+
+    .input_field {
+      width: 50%;
+    }
+
+    .question_block_content {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: $white;
+      padding: 20px;
+      margin-left: 40px;
+      border-radius: 5px;
+      box-shadow: $shadow;
+      position: relative;
+
+      .question_block_boredr {
+        position: absolute;
+        height: 80%;
+        top: 0;
+        left: 0;
+        margin: 8px;
+        border-left: 3px solid $primaryColor;
+      }
+
+    }
+
+    input[type="radio"] {
+      border: 1px solid $primaryColor;
+      padding: 10px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+  }
+
+
+}
