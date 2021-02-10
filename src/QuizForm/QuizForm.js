@@ -7,7 +7,7 @@ import AppsIcon from '@material-ui/icons/Apps'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
-
+import {Quizstyle} from './quizform.style'
 class QuizForm extends React.Component {
   initialState = {
     title: '',
@@ -227,6 +227,7 @@ class QuizForm extends React.Component {
 
   render() {
     return (
+      <Quizstyle>
       <div className={styles.quiz}>
         <div className={styles.quiz_content + ` sticky-top`}>
           <div className='container'>
@@ -415,6 +416,7 @@ class QuizForm extends React.Component {
           </div>
         </div>
       </div>
+      </Quizstyle>
     )
   }
 }
