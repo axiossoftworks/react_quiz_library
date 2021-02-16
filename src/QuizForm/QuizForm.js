@@ -314,6 +314,7 @@ class QuizForm extends React.Component {
                           type='number'
                           value={question.duration}
                           onChange={(e) => this.onDurationChange(e, index)}
+                          disabled={!(this.state.duration == 0)}
                         />
                       </div>
                       <button
