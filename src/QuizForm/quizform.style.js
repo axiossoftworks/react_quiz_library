@@ -1,18 +1,17 @@
 import styled from 'styled-components';
-
+var titleCOlor = "#444343";
+var contentColor = "#4a4a4a";
+var backgroundColor = "#f1f1f1b5";
+var iconColor = "#6f6f6f";
+var borderColor = "#c7c7c78c";
+var white = "#fff";
+var primaryColor = " #2092A5";
+var blockShadow = " 0 2px 40px 0 #48474712";
+var sectionShodow = "#ababab33 0px 4px 30px -1px, #0000000f 0px 2px 4px -1px";
+var deleteColor = "#f53335";
+var secondaryBtnColor = "#d0d0d0";
 export const Quizstyle = styled.div`
-$titleCOlor:#444343;
-$contentColor:#4a4a4a;
-$backgroundColor:#f1f1f1b5;
-$iconColor:#6f6f6f;
-$borderColor:#c7c7c78c;
-$white:#fff;
-$primaryColor: #2092A5;
-$blockShadow: 0 2px 40px 0 #48474712;
-$sectionShodow:#ababab33 0px 4px 30px -1px,
-#0000000f 0px 2px 4px -1px;
-$delete:#f53335;
-$secondaryBtnColor:#d0d0d0;
+
 
 p,
 h1,
@@ -34,8 +33,8 @@ input::-webkit-inner-spin-button {
 .main_btn {
   border: none;
   border-radius: 25px;
-  background: $primaryColor;
-  color: $white;
+  background: ${primaryColor};
+  color: ${white};
   padding: 7px 20px;
   font-size: 14px;
   font-weight: 500;
@@ -46,21 +45,21 @@ input::-webkit-inner-spin-button {
 }
 
 .bg_delete {
-  background: $delete;
+  background:${deleteColor};
 }
 
 .delete {
-  color: $delete;
+  color:${deleteColor};
 }
 
 .gray_bg {
   background: #e2e2e2;
-  color: $titleCOlor;
+  color: ${titleCOlor};
 }
 
 .secondary_btn {
-  background: $backgroundColor;
-  color: $titleCOlor;
+  background: ${backgroundColor};
+  color: ${titleCOlor};
 }
 
 .btn_icon {
@@ -68,14 +67,14 @@ input::-webkit-inner-spin-button {
   width: 40px;
   border: none;
   border-radius: 50%;
-  background: $backgroundColor;
-  color: $titleCOlor;
+  background: ${backgroundColor};
+  color: ${titleCOlor};
 }
 
 .option_btn {
   border: none;
   background: transparent;
-  color: $primaryColor;
+  color: ${primaryColor};
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -111,7 +110,7 @@ input::-webkit-inner-spin-button {
 
 .content {
   font-size: 14px;
-  color: $contentColor;
+  color: ${contentColor};
   font-weight: 600;
 }
 
@@ -132,9 +131,9 @@ input::-webkit-inner-spin-button {
   .input_field {
     width: 100%;
     border-radius: 5px;
-    border: 1px solid $borderColor;
+    border: 1px solid ${borderColor};
     padding: 7px 15px;
-    color: $contentColor;
+    color: ${contentColor};
     font-size: 14px;
 
     &:focus {
@@ -142,7 +141,8 @@ input::-webkit-inner-spin-button {
     }
   }
   .quiz_content {
-    background: $white;
+    background: ${white};
+    padding: 10px 0;
     .quiz_content_input_block {
       display: flex;
       justify-content: space-between;
@@ -175,15 +175,15 @@ input::-webkit-inner-spin-button {
  
 
   .question_section {
-    background: $backgroundColor;
+    background: ${backgroundColor};
     padding: 40px;
-    box-shadow: $sectionShodow;
+    box-shadow: ${sectionShodow};
     margin: 40px 0;
     border-radius: 5px;
 
 
     .question_icon {
-      color: $iconColor;
+      color: ${iconColor};
       margin-right: 10px;
       font-size: 22px;
     }
@@ -196,7 +196,7 @@ input::-webkit-inner-spin-button {
       .question_title {
         font-size: 18px;
         font-weight: 700;
-        color: $titleCOlor;
+        color: ${titleCOlor};
       }
 
       .question_duration {
@@ -249,10 +249,10 @@ input::-webkit-inner-spin-button {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: $white;
+        background: ${white};
         padding: 15px 15px 15px 23px;
         border-radius: 5px;
-        box-shadow: $blockShadow;
+        box-shadow: ${blockShadow};
         position: relative;
 
         .question_block_boredr {
@@ -261,13 +261,13 @@ input::-webkit-inner-spin-button {
           top: 0;
           left: 0;
           margin: 8px;
-          border-left: 3px solid $primaryColor;
+          border-left: 3px solid ${primaryColor};
         }
 
       }
 
       input[type="radio"] {
-        border: 1px solid $primaryColor;
+        border: 1px solid ${primaryColor};
         padding: 10px;
       }
 

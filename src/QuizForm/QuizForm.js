@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import produce from 'immer'
 import axios from 'axios'
-import styles from './quizform.scss'
 import AppsIcon from '@material-ui/icons/Apps'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
@@ -239,33 +238,33 @@ class QuizForm extends React.Component {
   render() {
     return (
       <Quizstyle>
-      <div className={styles.quiz}>
-        <div className={styles.quiz_content + ` sticky-top`}>
+      <div className="quiz">
+        <div className={"quiz_content"+ ` sticky-top`}>
           <div className='container'>
-            <div className={styles.quiz_content_input_block}>
-              <div className={styles.quiz_content_input}>
-                <label className={styles.content}>Quiz Title</label>
+            <div className="quiz_content_input_block">
+              <div className="quiz_content_input">
+                <label className="content">Quiz Title</label>
                 <input
-                  className={styles.input_field}
+                  className="input_field"
                   type='text'
                   value={this.state.title}
                   name='title'
                   onChange={this.onInputChange}
                 />
               </div>
-              <div className={styles.quiz_content_input}>
-                <label className={styles.content}>Quiz Duration</label>
+              <div className="quiz_content_input">
+                <label className="content">Quiz Duration</label>
                 <input
-                  className={styles.input_field}
+                  className="input_field"
                   type='number'
                   value={this.state.duration}
                   name='duration'
                   onChange={this.onInputChange}
                 />
               </div>
-              <div className={styles.btn_block}>
+              <div className="btn_block">
                 <button
-                  className={styles.main_btn + ' ' + styles.bg_save}
+                  className={"main_btn bg_save"}
                   id='createQuiz'
                   onClick={this.onSaveClick}
                 >
@@ -273,9 +272,9 @@ class QuizForm extends React.Component {
                 </button>
               </div>
             </div>
-            <div className={styles.quiz_content_check_block}>
-              <div className={styles.quiz_content_check}>
-                <label className={styles.content}>Strict</label>
+            <div className="quiz_content_check_block">
+              <div className="quiz_content_check">
+                <label className="content">Strict</label>
                 <input
                   type='checkbox'
                   checked={this.state.isStrict || false}
@@ -283,8 +282,8 @@ class QuizForm extends React.Component {
                   onChange={this.onCheckboxChange}
                 />
               </div>
-              <div className={styles.quiz_content_check}>
-                <label className={styles.content}>Revision</label>
+              <div className="quiz_content_check">
+                <label className="content">Revision</label>
                 <input
                   type='checkbox'
                   checked={this.state.isRevision || false}
@@ -299,41 +298,41 @@ class QuizForm extends React.Component {
           {this.state.questions.map((question, index) => {
             return (
               <React.Fragment>
-                <div className={styles.question_section}>
-                  <div className={styles.qustion_title_block}>
-                    <div className={styles.question_title_content}>
-                      <AppsIcon className={styles.question_icon} />
-                      <label className={styles.question_title}>
+                <div className="question_section">
+                  <div className="qustion_title_block">
+                    <div className="question_title_content">
+                      <AppsIcon className="question_icon" />
+                      <label className="question_title">
                         Question {index + 1}{' '}
                       </label>
                     </div>
-                    <div className={styles.question_title_right}>
-                      <div className={styles.question_duration}>
-                        <label className={styles.content}>Duration(s) </label>
+                    <div className="question_title_right">
+                      <div className="question_duration">
+                        <label className="content">Duration(s) </label>
                         <input
-                          className={styles.input_field}
+                          className="input_field"
                           type='number'
                           value={question.duration}
                           onChange={(e) => this.onDurationChange(e, index)}
                         />
                       </div>
                       <button
-                        className={styles.btn_icon + ' ' + styles.bg_none}
+                        className={"btn_icon bg_none" }
                         onClick={() => this.onQuestionDelete(index)}
                       >
                         <CloseIcon />
                       </button>
                     </div>
                   </div>
-                  <div className={styles.question_title_input}>
+                  <div className="question_title_input">
                     <input
                       type='text'
                       value={question.question}
                       onChange={(e) => this.onQuestionChange(e, index)}
-                      className={styles.input_field}
+                      className="input_field"
                     />
-                    <label className={styles.option_btn}>
-                      Choose File <NoteAddIcon className={styles.option_icon} />
+                    <label className="option_btn">
+                      Choose File <NoteAddIcon className="option_icon" />
                       <input
                         type='file'
                         onChange={(e) => this.onFileUpload(e, index)}
@@ -344,7 +343,7 @@ class QuizForm extends React.Component {
                   {question.options.map((option, optionIndex) => {
                     return (
                       <React.Fragment>
-                        <div className={styles.question_block}>
+                        <div className="question_block">
                           <input
                             type='radio'
                             name={'option' + index}
@@ -355,32 +354,28 @@ class QuizForm extends React.Component {
                             }
                           />
                           <label
-                            className={
-                              styles.content + ' ' + styles.quuiz_number
-                            }
+                            className="content quuiz_number"
                           >
                             {optionIndex + 1}{' '}
                           </label>
-                          <div className={styles.question_block_content}>
-                            <div className={styles.question_block_boredr}></div>
+                          <div className="question_block_content">
+                            <div className="question_block_boredr"></div>
 
                             <input
-                              className={styles.input_field}
+                              className="input_field"
                               type='text'
                               value={option.optionValue}
                               onChange={(e) =>
                                 this.onOptionChange(e, index, optionIndex)
                               }
                             />
-                            <div className={styles.btn_block}>
+                            <div className="btn_block">
                               <label
-                                className={
-                                  styles.main_btn + ' ' + styles.secondary_btn
-                                }
+                                className="main_btn secondary_btn"
                               >
                                 Choose File
                                 <input
-                                  className={styles.main_btn}
+                                  className="main_btn"
                                   type='file'
                                   onChange={(e) =>
                                     this.onOptionImageUpload(
@@ -392,7 +387,7 @@ class QuizForm extends React.Component {
                                 />
                               </label>
                               <button
-                                className={styles.btn_icon}
+                                className="btn_icon"
                                 onClick={() =>
                                   this.onOptionDelete(index, optionIndex)
                                 }
@@ -405,21 +400,21 @@ class QuizForm extends React.Component {
                       </React.Fragment>
                     )
                   })}
-                  <div className={styles.btn_block}>
+                  <div className="btn_block">
                     <button
-                      className={styles.option_btn}
+                      className="option_btn"
                       onClick={() => this.onAddOption(index)}
                     >
-                      Add Option <AddIcon className={styles.option_icon} />
+                      Add Option <AddIcon className="option_icon" />
                     </button>
                   </div>
                 </div>
               </React.Fragment>
             )
           })}
-          <div class={styles.btn_block}>
+          <div class="btn_block">
             <button
-              className={styles.main_btn}
+              className="main_btn"
               onClick={this.onAddQuestionClick}
             >
               Add Question
