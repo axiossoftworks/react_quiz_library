@@ -58,8 +58,8 @@ const App = () => {
     <QuizForm
       testerId={1}
       quizData={quizData}
-      submitUrl='http://quiz.com/save_answers/'
-      onSaveSubmitSuccess={() => console.log('Successfull')}
+      submitUrl='https://quiz.axiossoftwork.com//quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.aMzhSfrd5OwiaDvkdnKDmaXl5npNRrxMj8cfUDbPHVk'
+      onSaveSubmitSuccess={() => console.log('Successfully')}
     />
   )
 }

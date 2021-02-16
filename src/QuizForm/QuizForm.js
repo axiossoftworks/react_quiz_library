@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
 import {Quizstyle} from './quizform.style'
 class QuizForm extends React.Component {
-  initialState = {
+  state = {
     title: '',
     isStrict: false,
     isRevision: false,
@@ -24,7 +24,6 @@ class QuizForm extends React.Component {
       }
     ]
   }
-  state = this.initialState
 
   componentDidMount() {
     if (this.props.quizData.length !== 0) {
@@ -138,9 +137,21 @@ class QuizForm extends React.Component {
     quizData.questions = newquestions
     const { data } = await axios.post(this.props.submitUrl, quizData)
     if (data.status === 200) {
-      toastr.success('Successfully saved')
       this.props.onSaveSubmitSuccess()
-      this.setState(this.initialState)
+      this.setState({
+      title: '',
+      isStrict: false,
+      isRevision: false,
+      duration: 0,
+      questions: [
+        {
+          question: '',
+          image: '',
+          duration: '',
+          correctAns: '',
+          options: []
+        }
+      ]})
     } else {
       toastr.error(data.message)
     }
