@@ -123,12 +123,7 @@ export default class AnswerContent extends Component {
       token: this.props.token
     });
     if (data.status === 200) {
-      setTimeout(() => {
-        this.props.toastr.error("Answers Were submitted.")
-      },2000)
       this.props.onSaveSubmitSuccess()
-    } else {
-      this.props.toastr.error(data.message);
     }
   };
   render() {

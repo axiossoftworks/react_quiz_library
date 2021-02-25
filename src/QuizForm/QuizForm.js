@@ -151,8 +151,6 @@ class QuizForm extends React.Component {
           options: []
         }
       ]})
-    } else {
-      toastr.error(data.message)
     }
   }
 
