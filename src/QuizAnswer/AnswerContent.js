@@ -117,13 +117,13 @@ export default class AnswerContent extends Component {
           answer.options.find((item) => item.optionValue === answer.correctAns)
             .id == answer.answeredOptionId,
       }));
-    debugger;
     const { data } = await axios.post(this.props.submitUrl, {
       answers,
-      token: this.props.token
+      token: this.props.token,
+      startTime: this.props.startTime
     });
     if (data.status === 200) {
-      this.props.onSaveSubmitSuccess()
+      this.props.onSaveSubmitSuccess(this.props.startTime)
     }
   };
   render() {
