@@ -119,11 +119,10 @@ export default class AnswerContent extends Component {
       }));
     const { data } = await axios.post(this.props.submitUrl, {
       answers,
-      token: this.props.token,
-      startTime: this.props.startTime
+      token: this.props.token
     });
     if (data.status === 200) {
-      this.props.onSaveSubmitSuccess(this.props.startTime)
+      this.props.onSaveSubmitSuccess()
     }
   };
   render() {

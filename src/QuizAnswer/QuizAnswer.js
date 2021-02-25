@@ -9,8 +9,7 @@ export class QuizAnswer extends Component {
     isRevision: false,
     duration: 0,
     questions: [],
-    startQuiz: false,
-    startTime: ""
+    startQuiz: false
   };
 
   componentDidMount() {
@@ -57,9 +56,10 @@ export class QuizAnswer extends Component {
    
     {this.state.isStrict ? <p>You must complete each question in the specified time limit. If you cannot complete the question will be skipped</p> : null}
     {this.state.startQuiz ? null :<button onClick={() => {
-      this.setState({startQuiz: true ,startTime: Date()})
+      this.setState({startQuiz: true})
     }}>Start Quiz</button>}
-    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess} testerId={this.props.testerId} token={this.props.token} submitUrl={this.props.submitUrl} toastr={this.toastr} startTime={this.state.startTime}/>}
+    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess} testerId={this.props.testerId} token={this.props.token} submitUrl={this.props.submitUrl} toastr={this.toastr}/>}
+    
     </div>;
   }
 }
