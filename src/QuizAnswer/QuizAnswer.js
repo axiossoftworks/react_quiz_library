@@ -58,7 +58,9 @@ export class QuizAnswer extends Component {
     {this.state.startQuiz ? null :<button onClick={() => {
       this.setState({startQuiz: true})
     }}>Start Quiz</button>}
-    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} onSaveSubmitSuccess={this.props.onSaveSubmitSuccess} testerId={this.props.testerId} token={this.props.token} submitUrl={this.props.submitUrl} toastr={this.toastr}/>}
+    {(this.state.questions.length > 0 && this.state.startQuiz)  &&  <AnswerContent questions={this.state.questions} isStrict={this.state.isStrict} isRevision={this.state.isRevision} duration={this.state.duration} testerId={this.props.testerId} toastr={this.toastr} 
+        submitAnswers={submitAnswers}
+    />}
     
     </div>;
   }
