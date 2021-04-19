@@ -171,6 +171,7 @@ export default class AnswerContent extends Component {
                   onChange={this.onSelectedAnswerChange}
                 />
                 {option.optionValue}
+                <img src={this.state.question.image} width="300"/>
               </div>
             </React.Fragment>
           )
