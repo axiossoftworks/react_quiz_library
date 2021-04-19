@@ -156,6 +156,8 @@ export default class AnswerContent extends Component {
         <h2 className='question-title'>
           {this.currentQuestionIndex + 1}. {this.state.currentQuestion.question}
         </h2>
+        <img src={this.state.currentQuestion.image} width="300"/>
+
 
         {this.state.currentQuestion?.options?.map((option, index) => {
           return (
@@ -171,7 +173,7 @@ export default class AnswerContent extends Component {
                   onChange={this.onSelectedAnswerChange}
                 />
                 {option.optionValue}
-                <img src={this.state.question.image} width="300"/>
+                <img src={option.optionImage} width="300"/>
               </div>
             </React.Fragment>
           )
