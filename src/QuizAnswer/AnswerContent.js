@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import produce from "immer";
-import Countdown from "react-countdown";
+import React, { Component } from 'react'
+import produce from 'immer'
+import Countdown from 'react-countdown'
 import axios from 'axios'
 export default class AnswerContent extends Component {
-  state = { currentQuestion: "", countDown: 20000, beginTime: Date.now() };
+  state = { currentQuestion: '', countDown: 20000, beginTime: Date.now() }
 
-  answeredQuestions = [];
-  currentQuestionIndex = 0;
+  answeredQuestions = []
+  currentQuestionIndex = 0
   componentDidMount() {
     this.setState({
       currentQuestion: this.props.questions?.[0],
-      countDown: this.props.questions?.[0].duration,
-    });
+      countDown: this.props.questions?.[0].duration
+    })
   }
 
   componentDidUpdate(nextProps, nextState) {
@@ -21,13 +21,13 @@ export default class AnswerContent extends Component {
     ) {
       //Without this even after state change option will already be selected so loop through and deselect all the options
       this.state.currentQuestion.options.forEach((option, index) => {
-        this[`radioRef${option.id}`].checked = false;
-      });
+        this[`radioRef${option.id}`].checked = false
+      })
       // Preselect if the question has already been answered
       if (this.state.currentQuestion.answeredOptionId) {
         this[
           `radioRef${this.state.currentQuestion.answeredOptionId}`
-        ].checked = true;
+        ].checked = true
       }
     }
   }
@@ -36,27 +36,27 @@ export default class AnswerContent extends Component {
     if (this.props.isRevision) {
       this.setState(
         produce(this.state, (draft) => {
-          draft.currentQuestion.answeredOptionId = e.target.value;
+          draft.currentQuestion.answeredOptionId = e.target.value
         })
-      );
+      )
     } else {
       this.setState(
         produce(this.state, (draft) => {
-          draft.currentQuestion.answeredOptionId = e.target.value;
+          draft.currentQuestion.answeredOptionId = e.target.value
         }),
         this.showNextQuestion
-      );
+      )
     }
-  };
+  }
 
   showNextQuestion = () => {
-    this.currentQuestionIndex += 1;
+    this.currentQuestionIndex += 1
     // If next question already answered then get currentQIndex from this.answeredQues else get it from this.prop.question
     //If it is already answered componentDidUpdate will preselect the previously selected option
-    let nextQuestion = this.answeredQuestions[this.currentQuestionIndex];
-    this.replaceCurrentQuestionOrPushCurrent();
+    let nextQuestion = this.answeredQuestions[this.currentQuestionIndex]
+    this.replaceCurrentQuestionOrPushCurrent()
     if (nextQuestion === undefined) {
-      nextQuestion = this.props.questions[this.currentQuestionIndex];
+      nextQuestion = this.props.questions[this.currentQuestionIndex]
     }
     if (
       this.state.currentQuestion.id !==
@@ -64,46 +64,51 @@ export default class AnswerContent extends Component {
     ) {
       this.setState({
         currentQuestion: nextQuestion,
-        countDown: nextQuestion.duration,
-      });
-      if (this.props.isStrict && (this.props.duration == 0 || this.props.duration === undefined || this.props.duration === null)) {
+        countDown: nextQuestion.duration
+      })
+      if (
+        this.props.isStrict &&
+        (this.props.duration == 0 ||
+          this.props.duration === undefined ||
+          this.props.duration === null)
+      ) {
         this.setState({
-          beginTime: Date.now(),
-        });
+          beginTime: Date.now()
+        })
       }
     } else {
-      this.submitAnswers();
+      this.submitAnswers()
     }
-  };
+  }
 
   showNextQuestionIfAnswered = () => {
     if (this.state.currentQuestion.answeredOptionId !== undefined) {
-      this.showNextQuestion();
+      this.showNextQuestion()
     } else {
-      this.props.toastr.error("Please Select your answer first!!");
+      this.props.toastr.error('Please Select your answer first!!')
     }
-  };
+  }
 
   replaceCurrentQuestionOrPushCurrent = () => {
     const questionIndex = this.answeredQuestions.findIndex(
       (element) => element.id === this.state.currentQuestion.id
-    );
+    )
     if (questionIndex !== -1) {
-      this.answeredQuestions[questionIndex] = this.state.currentQuestion;
+      this.answeredQuestions[questionIndex] = this.state.currentQuestion
     } else {
-      this.answeredQuestions.push(this.state.currentQuestion);
+      this.answeredQuestions.push(this.state.currentQuestion)
     }
-  };
+  }
 
   showPreviousQuestion = () => {
-    this.currentQuestionIndex -= 1;
-    console.log(this.currentQuestionIndex);
-    const prevQuestion = this.answeredQuestions[this.currentQuestionIndex];
-    this.replaceCurrentQuestionOrPushCurrent();
+    this.currentQuestionIndex -= 1
+    console.log(this.currentQuestionIndex)
+    const prevQuestion = this.answeredQuestions[this.currentQuestionIndex]
+    this.replaceCurrentQuestionOrPushCurrent()
     this.setState({
-      currentQuestion: prevQuestion,
-    });
-  };
+      currentQuestion: prevQuestion
+    })
+  }
 
   submitAnswers = async () => {
     // Filter if question is not answered and map through only answered question
@@ -115,47 +120,50 @@ export default class AnswerContent extends Component {
         tester_id: this.props.testerId,
         is_correct:
           answer.options.find((item) => item.optionValue === answer.correctAns)
-            .id == answer.answeredOptionId,
-      }));
-      this.props.submitAnswers(answers)
-    
-  };
+            .id == answer.answeredOptionId
+      }))
+    this.props.submitAnswers(answers)
+  }
+
   render() {
     return (
       <div>
         {this.props.duration > 0 ? (
           <p>
-            Quiz Duration:{" "}
+            Quiz Duration:{' '}
             <Countdown
               key={this.state.currentQuestion.id}
               daysInHours={true}
-              date={this.state.beginTime + (this.props.duration * 1000)}
+              date={this.state.beginTime + this.props.duration * 1000}
               onComplete={this.submitAnswers}
-            />{" "}
+            />{' '}
           </p>
         ) : null}
-        {this.props.isStrict && (this.props.duration == 0 || this.props.duration === undefined || this.props.duration === null) ? (
+        {this.props.isStrict &&
+        (this.props.duration == 0 ||
+          this.props.duration === undefined ||
+          this.props.duration === null) ? (
           <div>
-            Question Time:{" "}
+            Question Time:{' '}
             <Countdown
               key={this.state.currentQuestion.id}
               daysInHours={true}
-              date={this.state.beginTime + (this.state.countDown * 1000)}
+              date={this.state.beginTime + this.state.countDown * 1000}
               onComplete={this.showNextQuestion}
-            />{" "}
+            />{' '}
           </div>
         ) : null}
-        <h2 className="question-title">
+        <h2 className='question-title'>
           {this.currentQuestionIndex + 1}. {this.state.currentQuestion.question}
         </h2>
 
         {this.state.currentQuestion?.options?.map((option, index) => {
           return (
             <React.Fragment>
-              <div className="col-md-12">
+              <div className='col-md-12'>
                 {index + 1}.
                 <input
-                  type="radio"
+                  type='radio'
                   ref={(ref) => (this[`radioRef${option.id}`] = ref)}
                   defaultChecked={false}
                   name={this.state.currentQuestion.id}
@@ -165,7 +173,7 @@ export default class AnswerContent extends Component {
                 {option.optionValue}
               </div>
             </React.Fragment>
-          );
+          )
         })}
 
         {this.props.isRevision &&
@@ -188,6 +196,6 @@ export default class AnswerContent extends Component {
           </button>
         )}
       </div>
-    );
+    )
   }
 }
