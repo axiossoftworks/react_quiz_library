@@ -6,7 +6,7 @@ import AppsIcon from '@material-ui/icons/Apps'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
-import {Quizstyle} from './quizform.style'
+import { Quizstyle } from './quizform.style'
 class QuizForm extends React.Component {
   state = {
     title: '',
@@ -138,25 +138,26 @@ class QuizForm extends React.Component {
     if (data.status === 200) {
       this.props.onSaveSubmitSuccess()
       this.setState({
-      title: '',
-      isStrict: false,
-      isRevision: false,
-      duration: 0,
-      questions: [
-        {
-          question: '',
-          image: '',
-          duration: '',
-          correctAns: '',
-          options: []
-        }
-      ]})
+        title: '',
+        isStrict: false,
+        isRevision: false,
+        duration: 0,
+        questions: [
+          {
+            question: '',
+            image: '',
+            duration: '',
+            correctAns: '',
+            options: []
+          }
+        ]
+      })
     }
   }
 
   questionImageToBase64 = async (item) => {
     let question = { ...item }
-    if (question.image === '') {
+    if (question.image !== '') {
       await fetch(item.image)
         .then((r) => r.blob())
         .then((blob) => this.convertBlobToBase64(blob))
@@ -236,191 +237,186 @@ class QuizForm extends React.Component {
   render() {
     return (
       <Quizstyle>
-      <div className="quiz">
-        <div className={"quiz_content"+ ` sticky-top`}>
-          <div className='container'>
-            <div className="quiz_content_input_block">
-              <div className="quiz_content_input">
-                <label className="content">Quiz Title</label>
-                <input
-                  className="input_field"
-                  type='text'
-                  value={this.state.title}
-                  name='title'
-                  onChange={this.onInputChange}
-                />
+        <div className='quiz'>
+          <div className={'quiz_content' + ` sticky-top`}>
+            <div className='container'>
+              <div className='quiz_content_input_block'>
+                <div className='quiz_content_input'>
+                  <label className='content'>Quiz Title</label>
+                  <input
+                    className='input_field'
+                    type='text'
+                    value={this.state.title}
+                    name='title'
+                    onChange={this.onInputChange}
+                  />
+                </div>
+                <div className='quiz_content_input'>
+                  <label className='content'>Quiz Duration</label>
+                  <input
+                    className='input_field'
+                    type='number'
+                    value={this.state.duration}
+                    name='duration'
+                    onChange={this.onInputChange}
+                  />
+                </div>
+                <div className='btn_block'>
+                  <button
+                    className={'main_btn bg_save'}
+                    id='createQuiz'
+                    onClick={this.onSaveClick}
+                  >
+                    Save Questions
+                  </button>
+                </div>
               </div>
-              <div className="quiz_content_input">
-                <label className="content">Quiz Duration</label>
-                <input
-                  className="input_field"
-                  type='number'
-                  value={this.state.duration}
-                  name='duration'
-                  onChange={this.onInputChange}
-                />
-              </div>
-              <div className="btn_block">
-                <button
-                  className={"main_btn bg_save"}
-                  id='createQuiz'
-                  onClick={this.onSaveClick}
-                >
-                  Save Questions
-                </button>
-              </div>
-            </div>
-            <div className="quiz_content_check_block">
-              <div className="quiz_content_check">
-                <label className="content">Strict</label>
-                <input
-                  type='checkbox'
-                  checked={this.state.isStrict || false}
-                  name='isStrict'
-                  onChange={this.onCheckboxChange}
-                />
-              </div>
-              <div className="quiz_content_check">
-                <label className="content">Revision</label>
-                <input
-                  type='checkbox'
-                  checked={this.state.isRevision || false}
-                  name='isRevision'
-                  onChange={this.onCheckboxChange}
-                />
+              <div className='quiz_content_check_block'>
+                <div className='quiz_content_check'>
+                  <label className='content'>Strict</label>
+                  <input
+                    type='checkbox'
+                    checked={this.state.isStrict || false}
+                    name='isStrict'
+                    onChange={this.onCheckboxChange}
+                  />
+                </div>
+                <div className='quiz_content_check'>
+                  <label className='content'>Revision</label>
+                  <input
+                    type='checkbox'
+                    checked={this.state.isRevision || false}
+                    name='isRevision'
+                    onChange={this.onCheckboxChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className='container'>
-          {this.state.questions.map((question, index) => {
-            return (
-              <React.Fragment>
-                <div className="question_section">
-                  <div className="qustion_title_block">
-                    <div className="question_title_content">
-                      <AppsIcon className="question_icon" />
-                      <label className="question_title">
-                        Question {index + 1}{' '}
+          <div className='container'>
+            {this.state.questions.map((question, index) => {
+              return (
+                <React.Fragment>
+                  <div className='question_section'>
+                    <div className='qustion_title_block'>
+                      <div className='question_title_content'>
+                        <AppsIcon className='question_icon' />
+                        <label className='question_title'>
+                          Question {index + 1}{' '}
+                        </label>
+                      </div>
+                      <div className='question_title_right'>
+                        <div className='question_duration'>
+                          <label className='content'>Duration(s) </label>
+                          <input
+                            className='input_field'
+                            type='number'
+                            value={question.duration}
+                            onChange={(e) => this.onDurationChange(e, index)}
+                            disabled={!(this.state.duration == 0)}
+                          />
+                        </div>
+                        <button
+                          className={'btn_icon bg_none'}
+                          onClick={() => this.onQuestionDelete(index)}
+                        >
+                          <CloseIcon />
+                        </button>
+                      </div>
+                    </div>
+                    <div className='question_title_input'>
+                      <input
+                        type='text'
+                        value={question.question}
+                        onChange={(e) => this.onQuestionChange(e, index)}
+                        className='input_field'
+                      />
+                      <label className='option_btn'>
+                        Choose File <NoteAddIcon className='option_icon' />
+                        <input
+                          type='file'
+                          onChange={(e) => this.onFileUpload(e, index)}
+                        />
                       </label>
                     </div>
-                    <div className="question_title_right">
-                      <div className="question_duration">
-                        <label className="content">Duration(s) </label>
-                        <input
-                          className="input_field"
-                          type='number'
-                          value={question.duration}
-                          onChange={(e) => this.onDurationChange(e, index)}
-                          disabled={!(this.state.duration == 0)}
-                        />
-                      </div>
+
+                    {question.options.map((option, optionIndex) => {
+                      return (
+                        <React.Fragment>
+                          <div className='question_block'>
+                            <input
+                              type='radio'
+                              name={'option' + index}
+                              ref={(ref) =>
+                                (this['option' + optionIndex] = ref)
+                              }
+                              value={option.optionValue}
+                              onChange={(e) =>
+                                this.onCorrectAnsChange(e, index, optionIndex)
+                              }
+                            />
+                            <label className='content quuiz_number'>
+                              {optionIndex + 1}{' '}
+                            </label>
+                            <div className='question_block_content'>
+                              <div className='question_block_boredr'></div>
+
+                              <input
+                                className='input_field'
+                                type='text'
+                                value={option.optionValue}
+                                onChange={(e) =>
+                                  this.onOptionChange(e, index, optionIndex)
+                                }
+                              />
+                              <div className='btn_block'>
+                                <label className='main_btn secondary_btn'>
+                                  Choose File
+                                  <input
+                                    className='main_btn'
+                                    type='file'
+                                    onChange={(e) =>
+                                      this.onOptionImageUpload(
+                                        e,
+                                        index,
+                                        optionIndex
+                                      )
+                                    }
+                                  />
+                                </label>
+                                <button
+                                  className='btn_icon'
+                                  onClick={() =>
+                                    this.onOptionDelete(index, optionIndex)
+                                  }
+                                >
+                                  <CloseIcon />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </React.Fragment>
+                      )
+                    })}
+                    <div className='btn_block'>
                       <button
-                        className={"btn_icon bg_none" }
-                        onClick={() => this.onQuestionDelete(index)}
+                        className='option_btn'
+                        onClick={() => this.onAddOption(index)}
                       >
-                        <CloseIcon />
+                        Add Option <AddIcon className='option_icon' />
                       </button>
                     </div>
                   </div>
-                  <div className="question_title_input">
-                    <input
-                      type='text'
-                      value={question.question}
-                      onChange={(e) => this.onQuestionChange(e, index)}
-                      className="input_field"
-                    />
-                    <label className="option_btn">
-                      Choose File <NoteAddIcon className="option_icon" />
-                      <input
-                        type='file'
-                        onChange={(e) => this.onFileUpload(e, index)}
-                      />
-                    </label>
-                  </div>
-
-                  {question.options.map((option, optionIndex) => {
-                    return (
-                      <React.Fragment>
-                        <div className="question_block">
-                          <input
-                            type='radio'
-                            name={'option' + index}
-                            ref={(ref) => (this['option' + optionIndex] = ref)}
-                            value={option.optionValue}
-                            onChange={(e) =>
-                              this.onCorrectAnsChange(e, index, optionIndex)
-                            }
-                          />
-                          <label
-                            className="content quuiz_number"
-                          >
-                            {optionIndex + 1}{' '}
-                          </label>
-                          <div className="question_block_content">
-                            <div className="question_block_boredr"></div>
-
-                            <input
-                              className="input_field"
-                              type='text'
-                              value={option.optionValue}
-                              onChange={(e) =>
-                                this.onOptionChange(e, index, optionIndex)
-                              }
-                            />
-                            <div className="btn_block">
-                              <label
-                                className="main_btn secondary_btn"
-                              >
-                                Choose File
-                                <input
-                                  className="main_btn"
-                                  type='file'
-                                  onChange={(e) =>
-                                    this.onOptionImageUpload(
-                                      e,
-                                      index,
-                                      optionIndex
-                                    )
-                                  }
-                                />
-                              </label>
-                              <button
-                                className="btn_icon"
-                                onClick={() =>
-                                  this.onOptionDelete(index, optionIndex)
-                                }
-                              >
-                                <CloseIcon />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    )
-                  })}
-                  <div className="btn_block">
-                    <button
-                      className="option_btn"
-                      onClick={() => this.onAddOption(index)}
-                    >
-                      Add Option <AddIcon className="option_icon" />
-                    </button>
-                  </div>
-                </div>
-              </React.Fragment>
-            )
-          })}
-          <div class="btn_block">
-            <button
-              className="main_btn"
-              onClick={this.onAddQuestionClick}
-            >
-              Add Question
-            </button>
+                </React.Fragment>
+              )
+            })}
+            <div class='btn_block'>
+              <button className='main_btn' onClick={this.onAddQuestionClick}>
+                Add Question
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </Quizstyle>
     )
   }
