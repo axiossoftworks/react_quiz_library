@@ -175,7 +175,9 @@ export default class AnswerContent extends Component {
     })
     if (result.status === 200) {
       window.location.reload()
-      toast.success('Answers have been submitted')
+      toast.success(result.message)
+    } else {
+      toast.error(result.message)
     }
   }
 

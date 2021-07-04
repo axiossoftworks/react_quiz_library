@@ -86,9 +86,9 @@ const App = () => {
       quizData
     )
     if (data.status === 200) {
-      return { status: 200 }
+      return { status: 200, message: data.message }
     } else {
-      return { status: 500 }
+      return { status: 500, message: data.message }
     }
   }
 
@@ -98,9 +98,9 @@ const App = () => {
       postData
     )
     if (data.status === 200) {
-      return { status: 200 }
+      return { status: 200, message: data.message }
     } else {
-      return { status: 500 }
+      return { status: 500, message: data.message }
     }
   }
 

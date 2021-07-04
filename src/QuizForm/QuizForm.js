@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
 import { Quizstyle } from './quizform.style'
+import { ToastContainer, toast } from 'react-toastify'
 class QuizForm extends React.Component {
   state = {
     title: '',
@@ -27,7 +28,7 @@ class QuizForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.quizData.length !== 0) {
+    if (this.props?.quizData.length !== 0) {
       const data = this.props.quizData.map((quiz) => ({
         title: quiz.quiz_name,
         isStrict: quiz.is_strictduration,
@@ -143,6 +144,7 @@ class QuizForm extends React.Component {
     quizData.questions = newquestions
     const data = this.props.onSubmit(quizData)
     if (data.status === 200) {
+      toast.success(data.message)
       this.setState({
         title: '',
         isStrict: false,
@@ -158,6 +160,8 @@ class QuizForm extends React.Component {
           }
         ]
       })
+    } else {
+      toast.error(data.message)
     }
   }
 
@@ -251,6 +255,8 @@ class QuizForm extends React.Component {
   render() {
     return (
       <Quizstyle>
+        <ToastContainer />
+
         <div className='quiz'>
           <div className={'quiz_content' + ` sticky-top`}>
             <div className='container'>
