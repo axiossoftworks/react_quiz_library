@@ -1,15 +1,14 @@
-$titleCOlor:#444343;
-$contentColor:#4a4a4a;
-$backgroundColor:#f1f1f1b5;
-$iconColor:#6f6f6f;
-$borderColor:#c7c7c78c;
-$white:#fff;
-$primaryColor: #2092A5;
+$titleCOlor: #444343;
+$contentColor: #4a4a4a;
+$backgroundColor: #f1f1f1b5;
+$iconColor: #6f6f6f;
+$borderColor: #c7c7c78c;
+$white: #fff;
+$primaryColor: #2092a5;
 $blockShadow: 0 2px 40px 0 #48474712;
-$sectionShodow:#ababab33 0px 4px 30px -1px,
-#0000000f 0px 2px 4px -1px;
-$delete:#f53335;
-$secondaryBtnColor:#d0d0d0;
+$sectionShodow: #ababab33 0px 4px 30px -1px, #0000000f 0px 2px 4px -1px;
+$delete: #f53335;
+$secondaryBtnColor: #d0d0d0;
 
 p,
 h1,
@@ -122,8 +121,6 @@ input::-webkit-inner-spin-button {
   padding-top: 70px;
 }
 
-
-
 .quiz {
   padding: 40px 0;
   .input_field {
@@ -149,8 +146,8 @@ input::-webkit-inner-spin-button {
       .quiz_content_input {
         width: 40%;
       }
-      .btn_block{
-        button{
+      .btn_block {
+        button {
           margin: 0;
         }
       }
@@ -169,15 +166,12 @@ input::-webkit-inner-spin-button {
     }
   }
 
- 
-
   .question_section {
     background: $backgroundColor;
     padding: 40px;
     box-shadow: $sectionShodow;
     margin: 40px 0;
     border-radius: 5px;
-
 
     .question_icon {
       color: $iconColor;
@@ -209,7 +203,7 @@ input::-webkit-inner-spin-button {
           padding: 3px 10px;
           margin: 0 20px 0 10px;
         }
-        .btn_icon{
+        .btn_icon {
           height: unset;
           width: unset;
         }
@@ -226,7 +220,6 @@ input::-webkit-inner-spin-button {
         width: 85%;
       }
     }
-
 
     .question_block {
       margin: 12px 0;
@@ -260,20 +253,16 @@ input::-webkit-inner-spin-button {
           margin: 8px;
           border-left: 3px solid $primaryColor;
         }
-
       }
 
-      input[type="radio"] {
+      input[type='radio'] {
         border: 1px solid $primaryColor;
         padding: 10px;
       }
-
-
     }
 
-    input[type="file"] {
-      display: none;
+    input[type='file'] {
+      // display: none;
     }
-
   }
 }

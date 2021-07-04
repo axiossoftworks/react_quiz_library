@@ -115,90 +115,76 @@ export default class AnswerContent extends Component {
     })
   }
 
-  // convertBlobToBase64 = (blob) =>
-  //   new Promise((resolve, reject) => {
-  //     const reader = new FileReader()
-  //     reader.onerror = reject
-  //     reader.onload = () => {
-  //       resolve(reader.result)
-  //     }
-  //     reader.readAsDataURL(blob)
-  //   })
+  convertBlobToBase64 = (blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onerror = reject
+      reader.onload = () => {
+        resolve(reader.result)
+      }
+      reader.readAsDataURL(blob)
+    })
 
-  // imageConversion = async (answer) => {
-  //   const newAnswer = { ...answer }
+  imageConversion = async (answerFile) => {
+    let newAnswerFile
 
-  //   if (newAnswer.answerFile && newAnswer.answerFile !== '') {
-  //     await fetch(newAnswer.answerFile)
-  //       .then((r) => r.blob())
-  //       .then((blob) => this.convertBlobToBase64(blob))
-  //       .then((base64) => {
-  //         newAnswer.answerFile = newAnswer.answerFile === '' ? null : base64
-  //       })
-  //   }
-  //   return newAnswer
-  // }
+    if (answerFile && answerFile !== '') {
+      await fetch(answerFile)
+        .then((r) => r.blob())
+        .then((blob) => this.convertBlobToBase64(blob))
+        .then((base64) => {
+          newAnswerFile = answerFile === '' ? null : base64
+        })
+    }
+    return newAnswerFile
+  }
 
   submitAnswers = async () => {
     // Filter if question is not answered and map through only answered question
 
     const answers = this.answeredQuestions.filter((ans) => {
       if (ans.questionType === 'mcq') return ans.answeredOptionId !== undefined
-      else if (ans.questionType === 'textarea') return ans.answerText == null
+      else if (ans.questionType === 'textarea') return ans.answerText != null
       else return ans.answerFile != null
     })
 
-    const formData = new FormData()
-    const answersToBeSubmitted = answers.map((answer) => ({
-      option_id: answer.answeredOptionId,
-      question_id: answer.id,
-      tester_id: this.props.testerId,
-      question_type: answer.questionType,
-      is_correct:
-        answer.options?.find((item) => item.optionValue === answer.correctAns)
-          .id == answer.answeredOptionId,
-      answer_text: answer.answerText
-    }))
-    formData.append('answers', JSON.stringify(answersToBeSubmitted))
-
-    const files = await Promise.all(
-      answers
-        .filter((ans) => ans.answerFile != null)
-        .map((ans) => {
-          return this.blobToFile(ans.answerFile, ans.id)
-        })
+    const answersToBeSubmitted = await Promise.all(
+      answers.map(async (answer) => {
+        let answerFiles
+        if (answer.questionType === 'file')
+          answerFiles = await Promise.all(
+            answer.answerFile.map((file) => this.imageConversion(file))
+          )
+        return {
+          option_id: answer.answeredOptionId,
+          question_id: answer.id,
+          tester_id: this.props.testerId,
+          question_type: answer.questionType,
+          is_correct:
+            answer.options?.find(
+              (item) => item.optionValue === answer.correctAns
+            ).id == answer.answeredOptionId,
+          answer_file: answerFiles ?? null,
+          answer_text: answer.answerText
+        }
+      })
     )
-    files.forEach((file) => {
-      formData.append(`answerFiles[file_${file.name}]`, file)
-    })
-    const result = this.props.submitAnswers(formData)
-    if (result.status === 200) {
-      this.setState({
-        currentQuestion: '',
-        countDown: 20000,
-        beginTime: Date.now()
-      })
-    }
-  }
 
-  blobToFile = async (theBlob, fileName) => {
-    let blobFile
-    await fetch(theBlob)
-      .then((res) => res.blob())
-      .then((blob) => {
-        const file = new File([blob], fileName, {
-          lastModified: new Date(),
-          type: blob.type
-        })
-        blobFile = file
-      })
-    return blobFile
+    const result = await this.props.submitAnswers({
+      answers: answersToBeSubmitted
+    })
+    if (result.status === 200) {
+      window.location.reload()
+      toast.success('Answers have been submitted')
+    }
   }
 
   onFileUpload = (e) => {
     e.preventDefault()
     const { files } = e.target
-    const localImageUrl = window.URL.createObjectURL(files[0])
+    const localImageUrl = Object.values(files).map((file) =>
+      window.URL.createObjectURL(file)
+    )
 
     this.setState(
       produce(this.state, (draft) => {
@@ -248,7 +234,7 @@ export default class AnswerContent extends Component {
         />
       )
     } else {
-      content = <input type='file' onChange={this.onFileUpload} />
+      content = <input type='file' onChange={this.onFileUpload} multiple />
     }
 
     return (
