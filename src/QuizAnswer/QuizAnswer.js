@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AnswerContent from './AnswerContent'
-import { ToastContainer } from 'react-toastr'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export class QuizAnswer extends Component {
   state = {
@@ -24,8 +25,10 @@ export class QuizAnswer extends Component {
           question: question.question,
           image: question.question_image,
           correctAns: question.correct_answer,
+          questionType: question.question_type,
+          answerText: question?.answer_text,
           duration: question.duration,
-          options: question.options.map((option) => ({
+          options: question.options?.map((option) => ({
             id: option.oid,
             optionValue: option.option_value,
             optionImage: option.option_image
@@ -41,13 +44,11 @@ export class QuizAnswer extends Component {
       })
     }
   }
+
   render() {
     return (
       <div>
-        <ToastContainer
-          ref={(ref) => (this.toastr = ref)}
-          className='toast-top-right'
-        />
+        <ToastContainer />
         <h1>Title: {this.state.title}</h1>
 
         {this.state.isStrict ? (
@@ -72,8 +73,7 @@ export class QuizAnswer extends Component {
             isRevision={this.state.isRevision}
             duration={this.state.duration}
             testerId={this.props.testerId}
-            toastr={this.toastr}
-            submitAnswers={this.props.submitAnswers}
+            submitAnswers={this.props.onSubmit}
           />
         )}
       </div>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import produce from 'immer'
 import Countdown from 'react-countdown'
-import axios from 'axios'
+import { toast } from 'react-toastify'
+
 export default class AnswerContent extends Component {
   state = { currentQuestion: '', countDown: 20000, beginTime: Date.now() }
 
@@ -20,9 +21,10 @@ export default class AnswerContent extends Component {
       Object.keys(this.state.currentQuestion).length > 0
     ) {
       //Without this even after state change option will already be selected so loop through and deselect all the options
-      this.state.currentQuestion.options.forEach((option, index) => {
-        this[`radioRef${option.id}`].checked = false
-      })
+      if (this.state.currentQuestion.questionType === 'mcq')
+        this.state.currentQuestion.options.forEach((option, index) => {
+          this[`radioRef${option.id}`].checked = false
+        })
       // Preselect if the question has already been answered
       if (this.state.currentQuestion.answeredOptionId) {
         this[
@@ -82,10 +84,13 @@ export default class AnswerContent extends Component {
   }
 
   showNextQuestionIfAnswered = () => {
-    if (this.state.currentQuestion.answeredOptionId !== undefined) {
+    if (
+      this.state.currentQuestion.answeredOptionId !== undefined ||
+      this.state.currentQuestion.questionType !== 'mcq'
+    ) {
       this.showNextQuestion()
     } else {
-      this.props.toastr.error('Please Select your answer first!!')
+      toast.error('Please Select your answer first!!')
     }
   }
 
@@ -110,22 +115,142 @@ export default class AnswerContent extends Component {
     })
   }
 
+  // convertBlobToBase64 = (blob) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader()
+  //     reader.onerror = reject
+  //     reader.onload = () => {
+  //       resolve(reader.result)
+  //     }
+  //     reader.readAsDataURL(blob)
+  //   })
+
+  // imageConversion = async (answer) => {
+  //   const newAnswer = { ...answer }
+
+  //   if (newAnswer.answerFile && newAnswer.answerFile !== '') {
+  //     await fetch(newAnswer.answerFile)
+  //       .then((r) => r.blob())
+  //       .then((blob) => this.convertBlobToBase64(blob))
+  //       .then((base64) => {
+  //         newAnswer.answerFile = newAnswer.answerFile === '' ? null : base64
+  //       })
+  //   }
+  //   return newAnswer
+  // }
+
   submitAnswers = async () => {
     // Filter if question is not answered and map through only answered question
-    const answers = this.answeredQuestions
-      .filter((ans) => ans.answeredOptionId !== undefined)
-      .map((answer) => ({
-        option_id: answer.answeredOptionId,
-        question_id: answer.id,
-        tester_id: this.props.testerId,
-        is_correct:
-          answer.options.find((item) => item.optionValue === answer.correctAns)
-            .id == answer.answeredOptionId
-      }))
-    this.props.submitAnswers(answers)
+
+    const answers = this.answeredQuestions.filter((ans) => {
+      if (ans.questionType === 'mcq') return ans.answeredOptionId !== undefined
+      else if (ans.questionType === 'textarea') return ans.answerText == null
+      else return ans.answerFile != null
+    })
+
+    const formData = new FormData()
+    const answersToBeSubmitted = answers.map((answer) => ({
+      option_id: answer.answeredOptionId,
+      question_id: answer.id,
+      tester_id: this.props.testerId,
+      question_type: answer.questionType,
+      is_correct:
+        answer.options?.find((item) => item.optionValue === answer.correctAns)
+          .id == answer.answeredOptionId,
+      answer_text: answer.answerText
+    }))
+    formData.append('answers', JSON.stringify(answersToBeSubmitted))
+
+    const files = await Promise.all(
+      answers
+        .filter((ans) => ans.answerFile != null)
+        .map((ans) => {
+          return this.blobToFile(ans.answerFile, ans.id)
+        })
+    )
+    files.forEach((file) => {
+      formData.append(`answerFiles[file_${file.name}]`, file)
+    })
+    const result = this.props.submitAnswers(formData)
+    if (result.status === 200) {
+      this.setState({
+        currentQuestion: '',
+        countDown: 20000,
+        beginTime: Date.now()
+      })
+    }
+  }
+
+  blobToFile = async (theBlob, fileName) => {
+    let blobFile
+    await fetch(theBlob)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], fileName, {
+          lastModified: new Date(),
+          type: blob.type
+        })
+        blobFile = file
+      })
+    return blobFile
+  }
+
+  onFileUpload = (e) => {
+    e.preventDefault()
+    const { files } = e.target
+    const localImageUrl = window.URL.createObjectURL(files[0])
+
+    this.setState(
+      produce(this.state, (draft) => {
+        draft.currentQuestion.answerFile = localImageUrl
+      })
+    )
   }
 
   render() {
+    let content
+    if (this.state.currentQuestion.questionType === 'mcq') {
+      content = this.state.currentQuestion?.options?.map((option, index) => {
+        return (
+          <React.Fragment key={option.id}>
+            <div className='col-md-12'>
+              {index + 1}.
+              <input
+                type='radio'
+                ref={(ref) => (this[`radioRef${option.id}`] = ref)}
+                defaultChecked={false}
+                name={this.state.currentQuestion.id}
+                value={option.id}
+                onChange={this.onSelectedAnswerChange}
+              />
+              {option.optionValue}
+              {option.optionImage !== null ? (
+                <img src={option.optionImage} width='300' />
+              ) : null}
+            </div>
+          </React.Fragment>
+        )
+      })
+    } else if (this.state.currentQuestion.questionType === 'textarea') {
+      content = (
+        <textarea
+          value={this.state.currentQuestion.answerText}
+          onChange={(e) => {
+            const value = e.target.value
+            this.setState((prevState) => ({
+              ...prevState,
+              currentQuestion: {
+                ...prevState.currentQuestion,
+                answerText: value
+              }
+            }))
+          }}
+        />
+      )
+    } else {
+      content = <input type='file' onChange={this.onFileUpload} />
+    }
+
     return (
       <div>
         {this.props.duration > 0 ? (
@@ -156,28 +281,11 @@ export default class AnswerContent extends Component {
         <h2 className='question-title'>
           {this.currentQuestionIndex + 1}. {this.state.currentQuestion.question}
         </h2>
-        {this.state.currentQuestion.image !== "No Image" ? <img src={this.state.currentQuestion.image} width="300"/> : null}
+        {this.state.currentQuestion.image !== 'No Image' ? (
+          <img src={this.state.currentQuestion.image} width='300' />
+        ) : null}
 
-
-        {this.state.currentQuestion?.options?.map((option, index) => {
-          return (
-            <React.Fragment>
-              <div className='col-md-12'>
-                {index + 1}.
-                <input
-                  type='radio'
-                  ref={(ref) => (this[`radioRef${option.id}`] = ref)}
-                  defaultChecked={false}
-                  name={this.state.currentQuestion.id}
-                  value={option.id}
-                  onChange={this.onSelectedAnswerChange}
-                />
-                {option.optionValue}
-                {option.optionImage !== null ? <img src={option.optionImage} width="300"/> : null}
-              </div>
-            </React.Fragment>
-          )
-        })}
+        {content}
 
         {this.props.isRevision &&
         this.state.currentQuestion?.id !== this.props.questions?.[0].id &&
