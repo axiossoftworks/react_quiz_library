@@ -142,7 +142,7 @@ class QuizForm extends React.Component {
     const quizData = { ...this.state }
     const newquestions = await this.mapAllImages(quizData)
     quizData.questions = newquestions
-    const data = this.props.onSubmit(quizData)
+    const data = await this.props.onSubmit(quizData)
     if (data.status === 200) {
       toast.success(data.message)
       this.setState({
