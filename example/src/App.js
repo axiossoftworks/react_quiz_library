@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import 'quiz_library/dist/index.css'
 import { QuizAnswer } from 'quiz_library'
 import { QuizForm } from 'quiz_library'
 import axios from 'axios'
 
-const quizData = [
+const quizData1 = [
   {
     id: 108,
     quiz_name: 'Officiis nostrum qui',
@@ -79,6 +79,25 @@ const quizData = [
   }
 ]
 const App = () => {
+  const [quizData, setQuizData] = useState([])
+
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      // const { data } = await axios.get(
+      //   'http://localhost:3001' + `/api/quiz_data/108`,
+      //   {
+      //     params: {
+      //       token:
+      //         'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjJ9.65eP3iKS7hwix-kBBOdiwwl5teLVfZi9FujYGidv__U'
+      //     }
+      //   }
+      // )
+      // if (data) {
+      setQuizData(quizData1)
+      // }
+    }
+    fetchQuiz()
+  }, [])
   const onSubmit = async (quizData) => {
     // submitUrl='https://quiz.axiossoftwork.com//quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.aMzhSfrd5OwiaDvkdnKDmaXl5npNRrxMj8cfUDbPHVk'
     const { data } = await axios.post(
@@ -105,15 +124,10 @@ const App = () => {
   }
 
   return (
-    // <QuizForm
-    //   testerId={1}
-    //   quizData={quizData}
-    //   // submitUrl='https://quiz.axiossoftwork.com//quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.aMzhSfrd5OwiaDvkdnKDmaXl5npNRrxMj8cfUDbPHVk'
-    //   submitUrl='http://localhost:3001/quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjJ9.65eP3iKS7hwix-kBBOdiwwl5teLVfZi9FujYGidv__U'
-    //   onSaveSubmitSuccess={() => console.log('Successfully')}
-    // />
-    // <QuizForm testerId={1} quizData={quizData} onSubmit={onSubmit} />
-    <QuizAnswer testerId={1} quizData={quizData} onSubmit={onAnsSubmit} />
+    // <QuizForm  quizData={quizData} onSubmit={onSubmit} />
+    quizData.length > 0 && (
+      <QuizAnswer testerId={1} quizData={quizData} onSubmit={onAnsSubmit} />
+    )
   )
 }
 

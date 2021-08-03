@@ -14,7 +14,7 @@ export class QuizAnswer extends Component {
   }
 
   componentDidMount() {
-    if (this.props.quizData?.length !== 0) {
+    if (this.props.quizData?.length > 0) {
       const data = this.props.quizData.map((quiz) => ({
         title: quiz.quiz_name,
         isStrict: quiz.is_strictduration,
@@ -36,11 +36,11 @@ export class QuizAnswer extends Component {
         }))
       }))
       this.setState({
-        title: data[0].title,
-        isRevision: data[0].isRevision,
-        isStrict: data[0].isStrict,
-        duration: data[0].duration,
-        questions: data[0].questions
+        title: data?.[0]?.title,
+        isRevision: data?.[0]?.isRevision,
+        isStrict: data?.[0]?.isStrict,
+        duration: data?.[0]?.duration,
+        questions: data?.[0]?.questions
       })
     }
   }
@@ -66,7 +66,7 @@ export class QuizAnswer extends Component {
             Start Quiz
           </button>
         )}
-        {this.state.questions.length > 0 && this.state.startQuiz && (
+        {this.state.questions?.length > 0 && this.state.startQuiz && (
           <AnswerContent
             questions={this.state.questions}
             isStrict={this.state.isStrict}
