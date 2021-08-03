@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import produce from 'immer'
 import Countdown from 'react-countdown'
 import { toast } from 'react-toastify'
+// import { Divider } from '@material-ui/core'
 
 export default class AnswerContent extends Component {
   state = { currentQuestion: '', countDown: 20000, beginTime: Date.now() }
@@ -20,7 +21,7 @@ export default class AnswerContent extends Component {
       this.state.currentQuestion.id !== nextState.currentQuestion.id &&
       Object.keys(this.state.currentQuestion).length > 0
     ) {
-      //Without this even after state change option will already be selected so loop through and deselect all the options
+      // Without this even after state change option will already be selected so loop through and deselect all the options
       if (this.state.currentQuestion.questionType === 'mcq')
         this.state.currentQuestion.options.forEach((option, index) => {
           this[`radioRef${option.id}`].checked = false
@@ -70,7 +71,7 @@ export default class AnswerContent extends Component {
       })
       if (
         this.props.isStrict &&
-        (this.props.duration == 0 ||
+        (this.props.duration === 0 ||
           this.props.duration === undefined ||
           this.props.duration === null)
       ) {
@@ -163,7 +164,7 @@ export default class AnswerContent extends Component {
           is_correct:
             answer.options?.find(
               (item) => item.optionValue === answer.correctAns
-            ).id == answer.answeredOptionId,
+            ).id === answer.answeredOptionId,
           answer_file: answerFiles ?? null,
           answer_text: answer.answerText
         }
@@ -202,19 +203,21 @@ export default class AnswerContent extends Component {
         return (
           <React.Fragment key={option.id}>
             <div className='col-md-12'>
-              {index + 1}.
-              <input
-                type='radio'
-                ref={(ref) => (this[`radioRef${option.id}`] = ref)}
-                defaultChecked={false}
-                name={this.state.currentQuestion.id}
-                value={option.id}
-                onChange={this.onSelectedAnswerChange}
-              />
-              {option.optionValue}
-              {option.optionImage !== null ? (
-                <img src={option.optionImage} width='300' />
-              ) : null}
+              <div className='radio-btn'>
+                {/*{index + 1}.*/}
+                <input
+                  type='radio'
+                  ref={(ref) => (this[`radioRef${option.id}`] = ref)}
+                  defaultChecked={false}
+                  name={this.state.currentQuestion.id}
+                  value={option.id}
+                  onChange={this.onSelectedAnswerChange}
+                />
+                {option.optionValue}
+                {option.optionImage !== null ? (
+                  <img src={option.optionImage} width='300' />
+                ) : null}
+              </div>
             </div>
           </React.Fragment>
         )
@@ -222,6 +225,7 @@ export default class AnswerContent extends Component {
     } else if (this.state.currentQuestion.questionType === 'textarea') {
       content = (
         <textarea
+          className='textarea-section'
           value={this.state.currentQuestion.answerText}
           onChange={(e) => {
             const value = e.target.value
@@ -236,24 +240,30 @@ export default class AnswerContent extends Component {
         />
       )
     } else {
-      content = <input type='file' onChange={this.onFileUpload} multiple />
+      content = (
+        <input
+          className='fileupload-section'
+          type='file'
+          onChange={this.onFileUpload}
+          multiple
+        />
+      )
     }
 
     return (
       <div>
         {this.props.duration > 0 ? (
-          <p>
-            Quiz Duration:{' '}
+          <div className='countdown-content'>
             <Countdown
               key={this.state.currentQuestion.id}
-              daysInHours={true}
+              daysInHours
               date={this.state.beginTime + this.props.duration * 1000}
               onComplete={this.submitAnswers}
             />{' '}
-          </p>
+          </div>
         ) : null}
         {this.props.isStrict &&
-        (this.props.duration == 0 ||
+        (this.props.duration === 0 ||
           this.props.duration === undefined ||
           this.props.duration === null) ? (
           <div>
@@ -266,7 +276,7 @@ export default class AnswerContent extends Component {
             />{' '}
           </div>
         ) : null}
-        <h2 className='question-title'>
+        <h2 className='question-title quiz-ques-title'>
           {this.currentQuestionIndex + 1}. {this.state.currentQuestion.question}
         </h2>
         {this.state.currentQuestion.image !== 'No Image' ? (
@@ -278,13 +288,21 @@ export default class AnswerContent extends Component {
         {this.props.isRevision &&
         this.state.currentQuestion?.id !== this.props.questions?.[0].id &&
         this.props.isStrict === false ? (
-          <button onClick={this.showPreviousQuestion}>Previous</button>
+          <button className='prev-btn' onClick={this.showPreviousQuestion}>
+            Previous
+          </button>
         ) : null}
         {this.state.currentQuestion.id !==
         this.props.questions?.[this.props.questions.length - 1].id ? (
-          <button onClick={this.showNextQuestionIfAnswered}>Next</button>
+          <button
+            className='btn btn-primary'
+            onClick={this.showNextQuestionIfAnswered}
+          >
+            Next
+          </button>
         ) : (
           <button
+            className='btn btn-primary'
             onClick={
               this.props.isStrict
                 ? this.showNextQuestion

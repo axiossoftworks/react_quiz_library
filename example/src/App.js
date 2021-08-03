@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import 'quiz_library/dist/index.css'
 import { QuizAnswer } from 'quiz_library'
-import { QuizForm } from 'quiz_library'
+// import { QuizForm } from 'quiz_library'
 import axios from 'axios'
 
 const quizData1 = [
@@ -98,18 +98,18 @@ const App = () => {
     }
     fetchQuiz()
   }, [])
-  const onSubmit = async (quizData) => {
-    // submitUrl='https://quiz.axiossoftwork.com//quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.aMzhSfrd5OwiaDvkdnKDmaXl5npNRrxMj8cfUDbPHVk'
-    const { data } = await axios.post(
-      'http://localhost:3001/quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjJ9.65eP3iKS7hwix-kBBOdiwwl5teLVfZi9FujYGidv__U',
-      quizData
-    )
-    if (data.status === 200) {
-      return { status: 200, message: data.message }
-    } else {
-      return { status: 500, message: data.message }
-    }
-  }
+  // const onSubmit = async (quizData) => {
+  //   // submitUrl='https://quiz.axiossoftwork.com//quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.aMzhSfrd5OwiaDvkdnKDmaXl5npNRrxMj8cfUDbPHVk'
+  //   const { data } = await axios.post(
+  //     'http://localhost:3001/quiz/quiz_create?token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjJ9.65eP3iKS7hwix-kBBOdiwwl5teLVfZi9FujYGidv__U',
+  //     quizData
+  //   )
+  //   if (data.status === 200) {
+  //     return { status: 200, message: data.message }
+  //   } else {
+  //     return { status: 500, message: data.message }
+  //   }
+  // }
 
   const onAnsSubmit = async (postData) => {
     const { data } = await axios.post(

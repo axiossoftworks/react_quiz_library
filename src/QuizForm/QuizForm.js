@@ -1,7 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import produce from 'immer'
-import axios from 'axios'
 import AppsIcon from '@material-ui/icons/Apps'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
@@ -357,7 +355,7 @@ class QuizForm extends React.Component {
                           this.onQuestionKeyChange(e, index, 'questionType')
                         }
                       >
-                        <option value=''>Select Type</option>s
+                        <option value=''>Select Type</option>
                         <option value='mcq'>MCQ</option>
                         <option value='file'>File</option>
                         <option value='textarea'>Text Area</option>
@@ -388,6 +386,7 @@ class QuizForm extends React.Component {
                           <React.Fragment key={question.id}>
                             <div className='question_block'>
                               <input
+                                className='12'
                                 type='radio'
                                 name={'option' + index}
                                 ref={(ref) =>

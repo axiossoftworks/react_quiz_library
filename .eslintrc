@@ -5,10 +5,12 @@
     "standard-react",
     "plugin:prettier/recommended",
     "prettier/standard",
-    "prettier/react"
+    "prettier/react",
+    "prettier"
   ],
   "env": {
-    "node": true
+    "node": true,
+    "browser": true
   },
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -28,6 +30,9 @@
     "react/jsx-handler-names": 0,
     "react/jsx-fragments": 0,
     "react/no-unused-prop-types": 0,
-    "import/export": 0
+    "import/export": 0,
+    "spaced-comment": 0,
+    "react/jsx-boolean-value": 0,
+    "no-unused-vars": 1
   }
 }
