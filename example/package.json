@@ -13,6 +13,7 @@
     "quiz_library": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
+    "react-dropzone": "^11.3.4",
     "react-scripts": "file:../node_modules/react-scripts"
   },
   "devDependencies": {
