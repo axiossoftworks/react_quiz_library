@@ -8,30 +8,34 @@ var selectGreen = '#3ab781'
 // var secondaryColor = '#7e8ac799'
 
 export const QuizAnswerStyle = styled.div`
-
+html{
+  height:100%;
+}
 body {
   font-family: "Poppins", sans-serif;
-  background: rgb(244, 244, 253);
+  // background: rgb(244, 244, 253);
   min-width: unset !important;
   overflow-y: scroll;
-  height: unset;
-
-  // overflow-y: auto;
+  background-color: ${grey};
+  min-height: 100vh;
+  
+  overflow-y: auto;
 }
   .quiz-section-card {
     position: relative;
-    height: 46pc;
-    // overflow-y:hidden;
+    background: ${primaryColor};
+    height: 250px;
     .bg-blue {
       background-color: ${primaryColor};
       padding: 10px;
-      height: 16pc;
+      height: 30vh;
     }
-
+    .custom-height {
+      height: 150px;
+    }
     .bg-grey {
-      background-color: ${grey};
       padding: 10px;
-      height: 31pc;
+      height: calc(100vh - 30vh);
     }
   }
 
@@ -42,11 +46,7 @@ body {
     width: 40%;
     padding: 40px;
     margin: auto;
-    min-height: 400px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    overflow-x: hidden;
     background-color: #fff;
 
 
@@ -93,11 +93,11 @@ body {
     background: ${darkgrey};
     padding: 10px;
     border-radius: 20px;
-    width: 50%;
-    color: white;
+    width: 20%;
+    color: #fffs;
     position: absolute;
-    top: -16px;
-    right: 25%;
+    right: 40%;
+    bottom: 75px;
   }
 
   .question-section {
@@ -221,6 +221,49 @@ body {
       // input {
       //   margin-right: 10px;
       // }
+    }
+  }
+
+  @media (max-width:992px){
+    .quiz-card{
+      width:60%;
+    }
+
+    .countdown-content{
+      width:30%;
+      right:35%;
+
+    }
+  }
+
+  @media (max-width:480px){
+    .quiz-card{
+      width:80%;
+      padding:25px;
+
+      .countdown-content{
+        width: 50%;
+        right: 24%;
+      }
+    }
+  }
+
+  @media (max-width:375px){
+    .quiz-card{
+      width:90%;
+
+      .countdown-content{
+        width: 60%;
+        right: 20%;
+      }
+    }
+  }
+ 
+
+  @media(max-width:360px){
+    .quiz-card{
+    padding:20px;
+
     }
   }
 `

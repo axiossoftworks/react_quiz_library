@@ -51,8 +51,7 @@ export class QuizAnswer extends Component {
     return (
       <QuizAnswerStyle>
         <div className='quiz-section-card'>
-          <div className='bg-blue'> </div>
-          <div className='bg-grey'> </div>
+          <div className='custom-height'> </div>
           <div className='quiz-card'>
             <ToastContainer />{' '}
             {this.state.isTitle ? (

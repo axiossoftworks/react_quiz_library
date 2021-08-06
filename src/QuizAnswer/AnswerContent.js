@@ -319,37 +319,38 @@ export default class AnswerContent extends Component {
         ) : null}
 
         {content}
-
-        {this.props.isRevision &&
-        this.state.currentQuestion?.id !== this.props.questions?.[0].id &&
-        this.props.isStrict === false ? (
-          <button
-            className='quiz-btn secondary-btn'
-            onClick={this.showPreviousQuestion}
-          >
-            Previous
-          </button>
-        ) : null}
-        {this.state.currentQuestion.id !==
-        this.props.questions?.[this.props.questions.length - 1].id ? (
-          <button
-            className='quiz-btn primary-btn'
-            onClick={this.showNextQuestionIfAnswered}
-          >
-            Next
-          </button>
-        ) : (
-          <button
-            className='quiz-btn primary-btn '
-            onClick={
-              this.props.isStrict
-                ? this.showNextQuestion
-                : this.showNextQuestionIfAnswered
-            }
-          >
-            Submit
-          </button>
-        )}
+        <div className=''>
+          {this.props.isRevision &&
+          this.state.currentQuestion?.id !== this.props.questions?.[0].id &&
+          this.props.isStrict === false ? (
+            <button
+              className='quiz-btn secondary-btn'
+              onClick={this.showPreviousQuestion}
+            >
+              Previous
+            </button>
+          ) : null}
+          {this.state.currentQuestion.id !==
+          this.props.questions?.[this.props.questions.length - 1].id ? (
+            <button
+              className='quiz-btn primary-btn'
+              onClick={this.showNextQuestionIfAnswered}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              className='quiz-btn primary-btn '
+              onClick={
+                this.props.isStrict
+                  ? this.showNextQuestion
+                  : this.showNextQuestionIfAnswered
+              }
+            >
+              Submit
+            </button>
+          )}
+        </div>
       </div>
     )
   }
