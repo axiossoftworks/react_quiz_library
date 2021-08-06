@@ -279,15 +279,6 @@ class QuizForm extends React.Component {
                     onChange={this.onInputChange}
                   />
                 </div>
-                <div className='btn_block'>
-                  <button
-                    className='main_btn bg_save'
-                    id='createQuiz'
-                    onClick={this.onSaveClick}
-                  >
-                    Save Questions
-                  </button>
-                </div>
               </div>
               <div className='quiz_content_check_block'>
                 <div className='quiz_content_check'>
@@ -344,13 +335,13 @@ class QuizForm extends React.Component {
                     </div>
                     <div className='question_title_input'>
                       <input
+                        className='input_field mg-r'
                         type='text'
                         value={question.question}
                         onChange={(e) => this.onQuestionChange(e, index)}
-                        className='input_field'
                       />
                       <select
-                        className='input_field'
+                        className='input_field mg-r'
                         onChange={(e) =>
                           this.onQuestionKeyChange(e, index, 'questionType')
                         }
@@ -360,10 +351,12 @@ class QuizForm extends React.Component {
                         <option value='file'>File</option>
                         <option value='textarea'>Text Area</option>
                       </select>
-                      <label htmlFor='points'>Points</label>
+                      <label className='mg-r' htmlFor='points'>
+                        Points
+                      </label>
                       <input
                         id='points'
-                        className='input_field'
+                        className='input_field mg-r'
                         type='number'
                         step='any'
                         value={question.scorePoint}
@@ -371,13 +364,15 @@ class QuizForm extends React.Component {
                           this.onQuestionKeyChange(e, index, 'scorePoint')
                         }
                       />
-                      <label className='option_btn'>
-                        Choose File <NoteAddIcon className='option_icon' />
-                        <input
-                          type='file'
-                          onChange={(e) => this.onFileUpload(e, index)}
-                        />
-                      </label>
+                      <div className='choose-btn'>
+                        <label className='option_btn'>
+                          Choose File <NoteAddIcon className='option_icon' />
+                          <input
+                            type='file'
+                            onChange={(e) => this.onFileUpload(e, index)}
+                          />
+                        </label>
+                      </div>
                     </div>
 
                     {question.questionType === 'mcq' &&
@@ -456,6 +451,16 @@ class QuizForm extends React.Component {
             <div className='btn_block'>
               <button className='main_btn' onClick={this.onAddQuestionClick}>
                 Add Question
+              </button>
+            </div>
+
+            <div className='btn_block'>
+              <button
+                className='main_btn bg_save mg-t'
+                id='createQuiz'
+                onClick={this.onSaveClick}
+              >
+                Save Questions
               </button>
             </div>
           </div>

@@ -69,6 +69,13 @@ export const Quizstyle = styled.div`
     color: ${titleColor};
   }
 
+  .choose-btn {
+    width: 40%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 2px solid ${primaryColor};
+  }
   .option_btn {
     border: none;
     background: transparent;
@@ -94,6 +101,10 @@ export const Quizstyle = styled.div`
 
   .bg_save {
     background: #00a025;
+  }
+
+  .mg-t {
+    margin-top: 20px;
   }
 
   .btn_block {
@@ -185,7 +196,7 @@ export const Quizstyle = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-
+        margin-bottom: 20px;
         .question_title {
           font-size: 18px;
           font-weight: 700;
@@ -220,6 +231,10 @@ export const Quizstyle = styled.div`
 
         .input_field {
           width: 85%;
+        }
+
+        .mg-r {
+          margin-right: 20px !important;
         }
       }
 
