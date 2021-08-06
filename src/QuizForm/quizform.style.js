@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-var titleCOlor = '#444343'
+var titleColor = '#444343'
 var contentColor = '#4a4a4a'
 var backgroundColor = '#f1f1f1b5'
 var iconColor = '#6f6f6f'
@@ -52,12 +52,12 @@ export const Quizstyle = styled.div`
 
   .gray_bg {
     background: #e2e2e2;
-    color: ${titleCOlor};
+    color: ${titleColor};
   }
 
   .secondary_btn {
     background: ${backgroundColor};
-    color: ${titleCOlor};
+    color: ${titleColor};
   }
 
   .btn_icon {
@@ -66,7 +66,7 @@ export const Quizstyle = styled.div`
     border: none;
     border-radius: 50%;
     background: ${backgroundColor};
-    color: ${titleCOlor};
+    color: ${titleColor};
   }
 
   .option_btn {
@@ -189,7 +189,7 @@ export const Quizstyle = styled.div`
         .question_title {
           font-size: 18px;
           font-weight: 700;
-          color: ${titleCOlor};
+          color: ${titleColor};
         }
 
         .question_duration {

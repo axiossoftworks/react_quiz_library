@@ -386,7 +386,6 @@ class QuizForm extends React.Component {
                           <React.Fragment key={question.id}>
                             <div className='question_block'>
                               <input
-                                className='12'
                                 type='radio'
                                 name={'option' + index}
                                 ref={(ref) =>

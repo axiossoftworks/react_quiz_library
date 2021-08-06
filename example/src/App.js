@@ -26,7 +26,8 @@ const quizData1 = [
         correct_answer: null,
         duration: null,
         quiz_group_id: 108,
-        question_image: null
+        question_image:
+          'https://i0.wp.com/dotnepal.com/wp-content/uploads/2020/01/CMA-question-nepal-police.jpg?resize=662%2C331&ssl=1'
       },
       {
         id: 194,
@@ -37,7 +38,8 @@ const quizData1 = [
         correct_answer: null,
         duration: null,
         quiz_group_id: 108,
-        question_image: null
+        question_image:
+          'https://i0.wp.com/dotnepal.com/wp-content/uploads/2020/01/CMA-question-nepal-police.jpg?resize=662%2C331&ssl=1'
       },
       {
         id: 193,
@@ -55,7 +57,8 @@ const quizData1 = [
             updated_at: null,
             image_token: null,
             image_name: null,
-            option_image: 'null'
+            option_image:
+              'https://i0.wp.com/dotnepal.com/wp-content/uploads/2020/01/CMA-question-nepal-police.jpg?resize=662%2C331&ssl=1'
           },
           {
             oid: 392,

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import produce from 'immer'
 import Countdown from 'react-countdown'
 import { toast } from 'react-toastify'
+// import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import Dropzone from '../Dropzone/Dropzone'
 // import { Divider } from '@material-ui/core'
 
 export default class AnswerContent extends Component {
@@ -204,19 +206,38 @@ export default class AnswerContent extends Component {
           <React.Fragment key={option.id}>
             <div className='col-md-12'>
               <div className='radio-btn'>
-                {/*{index + 1}.*/}
-                <input
-                  type='radio'
-                  ref={(ref) => (this[`radioRef${option.id}`] = ref)}
-                  defaultChecked={false}
-                  name={this.state.currentQuestion.id}
-                  value={option.id}
-                  onChange={this.onSelectedAnswerChange}
-                />
-                {option.optionValue}
-                {option.optionImage !== null ? (
-                  <img src={option.optionImage} width='300' />
-                ) : null}
+                <div className=''>
+                  {option.optionImage !== null ? (
+                    <img
+                      className='quiz-img'
+                      src={option.optionImage}
+                      width='300'
+                    />
+                  ) : null}
+                  <input
+                    id={index + 1}
+                    className='radio-custom'
+                    type='radio'
+                    ref={(ref) => (this[`radioRef${option.id}`] = ref)}
+                    defaultChecked={false}
+                    name={this.state.currentQuestion.id}
+                    value={option.id}
+                    onChange={this.onSelectedAnswerChange}
+                  />
+
+                  <label
+                    htmlFor={index + 1}
+                    className={[
+                      'radio-custom-label',
+                      String(this.state.currentQuestion.answeredOptionId) ===
+                      String(option.id)
+                        ? 'checked-radio'
+                        : ''
+                    ].join(' ')}
+                  >
+                    {option.optionValue}
+                  </label>
+                </div>
               </div>
             </div>
           </React.Fragment>
@@ -225,7 +246,7 @@ export default class AnswerContent extends Component {
     } else if (this.state.currentQuestion.questionType === 'textarea') {
       content = (
         <textarea
-          className='textarea-section'
+          className='textarea-section form-control'
           value={this.state.currentQuestion.answerText}
           onChange={(e) => {
             const value = e.target.value
@@ -241,12 +262,22 @@ export default class AnswerContent extends Component {
       )
     } else {
       content = (
-        <input
-          className='fileupload-section'
-          type='file'
-          onChange={this.onFileUpload}
-          multiple
-        />
+        // <div className='file-upload-section'>
+        //   <CloudDownloadIcon className='file-icon' />
+        //   <label>
+        //     {' '}
+        //     Upload your Files here
+        //     <input
+        //       type='file'
+        //       onChange={this.onFileUpload}
+        //       multiple
+        //       size='60'
+        //     />
+        //   </label>
+        // </div>
+        <div>
+          <Dropzone />
+        </div>
       )
     }
 
@@ -280,7 +311,11 @@ export default class AnswerContent extends Component {
           {this.currentQuestionIndex + 1}. {this.state.currentQuestion.question}
         </h2>
         {this.state.currentQuestion.image !== 'No Image' ? (
-          <img src={this.state.currentQuestion.image} width='300' />
+          <img
+            className='quiz-img'
+            src={this.state.currentQuestion.image}
+            width='300'
+          />
         ) : null}
 
         {content}
@@ -288,21 +323,24 @@ export default class AnswerContent extends Component {
         {this.props.isRevision &&
         this.state.currentQuestion?.id !== this.props.questions?.[0].id &&
         this.props.isStrict === false ? (
-          <button className='prev-btn' onClick={this.showPreviousQuestion}>
+          <button
+            className='quiz-btn secondary-btn'
+            onClick={this.showPreviousQuestion}
+          >
             Previous
           </button>
         ) : null}
         {this.state.currentQuestion.id !==
         this.props.questions?.[this.props.questions.length - 1].id ? (
           <button
-            className='btn btn-primary'
+            className='quiz-btn primary-btn'
             onClick={this.showNextQuestionIfAnswered}
           >
             Next
           </button>
         ) : (
           <button
-            className='btn btn-primary'
+            className='quiz-btn primary-btn '
             onClick={
               this.props.isStrict
                 ? this.showNextQuestion

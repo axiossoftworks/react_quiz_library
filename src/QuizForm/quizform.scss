@@ -1,4 +1,4 @@
-$titleCOlor: #444343;
+$titleColor: #444343;
 $contentColor: #4a4a4a;
 $backgroundColor: #f1f1f1b5;
 $iconColor: #6f6f6f;
@@ -51,12 +51,12 @@ input::-webkit-inner-spin-button {
 
 .gray_bg {
   background: #e2e2e2;
-  color: $titleCOlor;
+  color: $titleColor;
 }
 
 .secondary_btn {
   background: $backgroundColor;
-  color: $titleCOlor;
+  color: $titleColor;
 }
 
 .btn_icon {
@@ -65,7 +65,7 @@ input::-webkit-inner-spin-button {
   border: none;
   border-radius: 50%;
   background: $backgroundColor;
-  color: $titleCOlor;
+  color: $titleColor;
 }
 
 .option_btn {
@@ -187,7 +187,7 @@ input::-webkit-inner-spin-button {
       .question_title {
         font-size: 18px;
         font-weight: 700;
-        color: $titleCOlor;
+        color: $titleColor;
       }
 
       .question_duration {

@@ -51,11 +51,13 @@ export class QuizAnswer extends Component {
     return (
       <QuizAnswerStyle>
         <div className='quiz-section-card'>
+          <div className='bg-blue'> </div>
+          <div className='bg-grey'> </div>
           <div className='quiz-card'>
             <ToastContainer />{' '}
             {this.state.isTitle ? (
               <div className='quiz-content'>
-                <h1 className='quiz-title'>Title: {this.state.title}</h1>
+                <h1 className='quiz-title'> {this.state.title}</h1>
 
                 {this.state.isStrict ? (
                   <p>
@@ -65,7 +67,7 @@ export class QuizAnswer extends Component {
                 ) : null}
                 {this.state.startQuiz ? null : (
                   <button
-                    className='btn btn-primary'
+                    className='quiz-btn primary-btn '
                     onClick={() => {
                       this.setState({ startQuiz: true })
                       this.setState({ isTitle: false })
@@ -82,9 +84,7 @@ export class QuizAnswer extends Component {
               {this.state.isTitle ? (
                 ''
               ) : (
-                <h1 className='quiz-title title-head'>
-                  Title: {this.state.title}
-                </h1>
+                <h1 className='quiz-title title-head'>{this.state.title}</h1>
               )}
               {this.state.questions.length > 0 && this.state.startQuiz && (
                 <AnswerContent
