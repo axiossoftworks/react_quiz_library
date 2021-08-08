@@ -184,9 +184,7 @@ export default class AnswerContent extends Component {
     }
   }
 
-  onFileUpload = (e) => {
-    e.preventDefault()
-    const { files } = e.target
+  onFileUpload = (files) => {
     const localImageUrl = Object.values(files).map((file) =>
       window.URL.createObjectURL(file)
     )
@@ -276,7 +274,7 @@ export default class AnswerContent extends Component {
         //   </label>
         // </div>
         <div>
-          <Dropzone />
+          <Dropzone onFileUpload={this.onFileUpload} />
         </div>
       )
     }

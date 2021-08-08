@@ -16,19 +16,21 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
-export default function Dropzone() {
+export default function Dropzone(props) {
   const [files, setFiles] = useState([])
   return (
     <div className='App'>
       <FilePond
         files={files}
         allowMultiple={true}
-        onupdatefiles={setFiles}
+        onupdatefiles={(fileItems) => {
+          // Set currently active file objects to this.state
+          setFiles(fileItems)
+          const files = fileItems.map((fileItem) => fileItem.file)
+          props.onFileUpload(files)
+        }}
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
     </div>
   )
 }
-
-const rootElement = document.getElementById('root')
-ReactDOM.render(<Dropzone />, rootElement)
