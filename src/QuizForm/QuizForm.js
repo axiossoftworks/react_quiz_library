@@ -16,7 +16,7 @@ class QuizForm extends React.Component {
       {
         question: '',
         image: '',
-        duration: '',
+        duration: 0,
         correctAns: '',
         questionType: '',
         scorePoint: '',
@@ -31,13 +31,13 @@ class QuizForm extends React.Component {
         title: quiz.quiz_name,
         isStrict: quiz.is_strictduration,
         isRevision: quiz.is_revision,
-        duration: quiz.duration,
+        duration: parseInt(quiz.duration),
         questions: quiz.questions.map((question) => ({
           id: question.id,
           question: question.question,
           image: question.question_image,
           correctAns: question.correct_answer,
-          duration: question.duration,
+          duration: parseInt(question.duration),
           questionType: question.question_type,
           scorePoint: question.score_point,
           options: question.options.map((option) => ({
@@ -100,6 +100,7 @@ class QuizForm extends React.Component {
             question: '',
             correctAns: '',
             image: '',
+            duration: 0,
             questionType: '',
             scorePoint: '',
             options: []
@@ -136,30 +137,86 @@ class QuizForm extends React.Component {
     )
   }
 
+  validateFields = (quizData) => {
+    let valid = true
+    if (quizData.title === '') {
+      valid = false
+      toast.info('Provide a title')
+    }
+    quizData.questions.forEach((question, index) => {
+      const emptyOptions = question.options.some(
+        (option) => option.optionValue === ''
+      )
+
+      if (question.question === '') {
+        valid = false
+        toast.info(`Empty question title for Question ${index + 1}`)
+      } else if (question.questionType === '') {
+        valid = false
+        toast.info(`Select Question type for Question ${index + 1}`)
+      } else if (question.scorePoint === '') {
+        valid = false
+        toast.info(`Points not given for Question ${index + 1}`)
+      } else if (
+        question.questionType === 'mcq' &&
+        question.options.length === 0
+      ) {
+        valid = false
+        toast.info(`Options required for MCQ question. Question ${index + 1}`)
+      } else if (
+        question.questionType === 'mcq' &&
+        question.options.length !== 0 &&
+        emptyOptions
+      ) {
+        valid = false
+        toast.info(`Options can't be empty. Question ${index + 1}`)
+      } else if (
+        question.questionType === 'mcq' &&
+        question.correctAns === ''
+      ) {
+        valid = false
+        toast.info(
+          `You have not selected correct option for Question ${index + 1}`
+        )
+      } else if (
+        quizData.isStrict &&
+        (parseInt(quizData.duration) === 0 || quizData.duration === '') &&
+        (parseInt(question.duration) === 0 || question.duration === '')
+      ) {
+        valid = false
+        toast.info(`Duration must exist for Question ${index + 1}`)
+      }
+    })
+    return valid
+  }
+
   onSaveClick = async () => {
     const quizData = { ...this.state }
     const newquestions = await this.mapAllImages(quizData)
     quizData.questions = newquestions
-    const data = await this.props.onSubmit(quizData)
-    if (data.status === 200) {
-      toast.success(data.message)
-      this.setState({
-        title: '',
-        isStrict: false,
-        isRevision: false,
-        duration: 0,
-        questions: [
-          {
-            question: '',
-            image: '',
-            duration: '',
-            correctAns: '',
-            options: []
-          }
-        ]
-      })
-    } else {
-      toast.error(data.message)
+    const validated = this.validateFields(quizData)
+    if (validated) {
+      const data = await this.props.onSubmit(quizData)
+      if (data.status === 200) {
+        toast.success(data.message)
+        this.setState({
+          title: '',
+          isStrict: false,
+          isRevision: false,
+          duration: 0,
+          questions: [
+            {
+              question: '',
+              image: '',
+              duration: '',
+              correctAns: '',
+              options: []
+            }
+          ]
+        })
+      } else {
+        toast.error(data.message)
+      }
     }
   }
 
@@ -322,7 +379,12 @@ class QuizForm extends React.Component {
                             type='number'
                             value={question.duration}
                             onChange={(e) => this.onDurationChange(e, index)}
-                            disabled={!(this.state.duration === 0)}
+                            disabled={
+                              !(
+                                parseInt(this.state.duration) === 0 ||
+                                this.state.duration === ''
+                              )
+                            }
                           />
                         </div>
                         <button
