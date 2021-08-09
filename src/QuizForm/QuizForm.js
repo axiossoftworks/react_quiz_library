@@ -28,12 +28,12 @@ class QuizForm extends React.Component {
 
   componentDidMount() {
     if (this.props?.quizData.length !== 0) {
-      const data = this.props.quizData.map((quiz) => ({
+      const data = this.props.quizData?.map((quiz) => ({
         title: quiz.quiz_name,
         isStrict: quiz.is_strictduration,
         isRevision: quiz.is_revision,
         duration: parseInt(quiz.duration),
-        questions: quiz.questions.map((question) => ({
+        questions: quiz.questions?.map((question) => ({
           id: question.id,
           question: question.question,
           image: question.question_image,
@@ -41,7 +41,7 @@ class QuizForm extends React.Component {
           duration: parseInt(question.duration),
           questionType: question.question_type,
           scorePoint: question.score_point,
-          options: question.options.map((option) => ({
+          options: question.options?.map((option) => ({
             id: option.oid,
             optionValue: option.option_value,
             optionImage: option.option_image
