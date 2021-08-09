@@ -14,6 +14,8 @@ export default class AnswerContent extends Component {
   componentDidMount() {
     this.setState({
       currentQuestion: this.props.questions?.[0],
+      submitted: false,
+      submitDisabled: false,
       countDown: this.props.questions?.[0].duration
     })
   }
@@ -144,43 +146,49 @@ export default class AnswerContent extends Component {
 
   submitAnswers = async () => {
     // Filter if question is not answered and map through only answered question
-
-    const answers = this.answeredQuestions.filter((ans) => {
-      if (ans.questionType === 'mcq') return ans.answeredOptionId !== undefined
-      else if (ans.questionType === 'textarea') return ans.answerText != null
-      else return ans.answerFile != null
-    })
-
-    const answersToBeSubmitted = await Promise.all(
-      answers.map(async (answer) => {
-        let answerFiles
-        if (answer.questionType === 'file')
-          answerFiles = await Promise.all(
-            answer.answerFile.map((file) => this.imageConversion(file))
-          )
-        return {
-          option_id: answer.answeredOptionId,
-          question_id: answer.id,
-          tester_id: this.props.testerId,
-          question_type: answer.questionType,
-          is_correct:
-            answer.options?.find(
-              (item) => item.optionValue === answer.correctAns
-            ).id === answer.answeredOptionId,
-          answer_file: answerFiles ?? null,
-          answer_text: answer.answerText
-        }
+    this.setState({ submitDisabled: true })
+    if (!this.state.submitted) {
+      const answers = this.answeredQuestions.filter((ans) => {
+        if (ans.questionType === 'mcq')
+          return ans.answeredOptionId !== undefined
+        else if (ans.questionType === 'textarea') return ans.answerText != null
+        else return ans.answerFile != null
       })
-    )
 
-    const result = await this.props.submitAnswers({
-      answers: answersToBeSubmitted
-    })
-    if (result.status === 200) {
-      window.location.reload()
-      toast.success(result.message)
-    } else {
-      toast.error(result.message)
+      const answersToBeSubmitted = await Promise.all(
+        answers.map(async (answer) => {
+          let answerFiles
+          if (answer.questionType === 'file')
+            answerFiles = await Promise.all(
+              answer.answerFile.map((file) => this.imageConversion(file))
+            )
+          return {
+            option_id: answer.answeredOptionId,
+            question_id: answer.id,
+            tester_id: this.props.testerId,
+            question_type: answer.questionType,
+            is_correct:
+              answer.options?.find(
+                (item) => item.optionValue === answer.correctAns
+              ).id === answer.answeredOptionId,
+            answer_file: answerFiles ?? null,
+            answer_text: answer.answerText
+          }
+        })
+      )
+
+      const result = await this.props.submitAnswers({
+        answers: answersToBeSubmitted
+      })
+      if (result.status === 200) {
+        this.setState({
+          submitted: true
+        })
+        window.location.reload()
+        toast.success(result.message)
+      } else {
+        toast.error(result.message)
+      }
     }
   }
 
@@ -338,6 +346,7 @@ export default class AnswerContent extends Component {
             </button>
           ) : (
             <button
+              disabled={this.state.submitDisabled}
               className='quiz-btn primary-btn '
               onClick={
                 this.props.isStrict

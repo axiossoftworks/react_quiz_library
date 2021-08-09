@@ -8,6 +8,7 @@ import { Quizstyle } from './quizform.style'
 import { ToastContainer, toast } from 'react-toastify'
 class QuizForm extends React.Component {
   state = {
+    submitDisabled: false,
     title: '',
     isStrict: false,
     isRevision: false,
@@ -196,12 +197,14 @@ class QuizForm extends React.Component {
     quizData.questions = newquestions
     const validated = this.validateFields(quizData)
     if (validated) {
+      this.setState({ submitDisabled: true })
       const data = await this.props.onSubmit(quizData)
       if (data.status === 200) {
         toast.success(data.message)
         this.setState({
           title: '',
           isStrict: false,
+          submitDisabled: false,
           isRevision: false,
           duration: 0,
           questions: [
@@ -520,6 +523,7 @@ class QuizForm extends React.Component {
               <button
                 className='main_btn bg_save mg-t'
                 id='createQuiz'
+                disabled={this.state.submitDisabled}
                 onClick={this.onSaveClick}
               >
                 Save Questions
